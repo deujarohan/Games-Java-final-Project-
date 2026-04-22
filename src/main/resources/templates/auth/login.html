@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Login — GameHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body class="auth-body">
+
+<div class="hit-counter"><span class="hit-label">SERVER HITS</span><span class="hit-value" id="hitValue">—</span></div>
+
+<div class="auth-container">
+    <a class="nav-brand auth-logo" th:href="@{/}">
+        <span class="brand-icon">⬡</span> GAME<span class="brand-accent">HUB</span>
+    </a>
+
+    <h2 class="auth-title">Sign In</h2>
+
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${param.registered}" class="alert alert-success">Account created! Please sign in.</div>
+
+    <form th:action="@{/login}" method="post" class="auth-form">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required autofocus/>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">SIGN IN</button>
+    </form>
+
+    <p class="auth-switch">Don't have an account? <a th:href="@{/register}">Register here</a></p>
+</div>
+
+<script th:src="@{/js/hits.js}"></script>
+</body>
+</html>

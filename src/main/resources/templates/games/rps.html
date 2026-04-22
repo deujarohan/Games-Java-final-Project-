@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Rock Paper Scissors — GameHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/rps.css}"/>
+</head>
+<body>
+<nav class="navbar">
+    <a class="nav-brand" th:href="@{/}"><span class="brand-icon">⬡</span> GAME<span class="brand-accent">HUB</span></a>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/games/ttt}">Tic-Tac-Toe</a>
+        <a th:href="@{/games/rps}" class="active">Rock Paper Scissors</a>
+        <a th:href="@{/records}">Records</a>
+        <a th:href="@{/profile}">Profile</a>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit" class="nav-logout">Logout</button>
+        </form>
+    </div>
+</nav>
+<div class="hit-counter"><span class="hit-label">SERVER HITS</span><span class="hit-value" id="hitValue">—</span></div>
+
+<main class="main-content page-pad">
+    <div class="game-page-header">
+        <h1>ROCK PAPER <span class="accent">SCISSORS</span></h1>
+        <p>Make your choice — best of the moment</p>
+    </div>
+
+    <div class="rps-layout">
+        <div class="rps-arena">
+            <div class="rps-side player-side">
+                <p class="side-label">YOU</p>
+                <div class="rps-choice-display" id="playerChoice">❓</div>
+            </div>
+
+            <div class="rps-vs">
+                <span>VS</span>
+                <div class="rps-result-text" id="rpsResultText"></div>
+            </div>
+
+            <div class="rps-side ai-side">
+                <p class="side-label">AI</p>
+                <div class="rps-choice-display" id="aiChoice">❓</div>
+            </div>
+        </div>
+
+        <div class="rps-controls">
+            <button class="rps-btn" data-choice="rock" id="btnRock">
+                <span class="rps-emoji">✊</span>
+                <span>ROCK</span>
+            </button>
+            <button class="rps-btn" data-choice="paper" id="btnPaper">
+                <span class="rps-emoji">🖐</span>
+                <span>PAPER</span>
+            </button>
+            <button class="rps-btn" data-choice="scissors" id="btnScissors">
+                <span class="rps-emoji">✌️</span>
+                <span>SCISSORS</span>
+            </button>
+        </div>
+
+        <div class="score-board rps-score">
+            <div class="score-item wins">
+                <span class="score-label">WINS</span>
+                <span class="score-val" id="rpsWins">0</span>
+            </div>
+            <div class="score-item draws">
+                <span class="score-label">DRAWS</span>
+                <span class="score-val" id="rpsDraws">0</span>
+            </div>
+            <div class="score-item losses">
+                <span class="score-label">LOSSES</span>
+                <span class="score-val" id="rpsLosses">0</span>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer"><p>GameHub &copy; 2025</p></footer>
+<script th:src="@{/js/hits.js}"></script>
+<script th:src="@{/js/rps.js}"></script>
+</body>
+</html>

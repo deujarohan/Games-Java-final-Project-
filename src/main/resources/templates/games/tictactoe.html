@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Tic-Tac-Toe — GameHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/ttt.css}"/>
+</head>
+<body>
+<nav class="navbar">
+    <a class="nav-brand" th:href="@{/}"><span class="brand-icon">⬡</span> GAME<span class="brand-accent">HUB</span></a>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/games/ttt}" class="active">Tic-Tac-Toe</a>
+        <a th:href="@{/games/rps}">Rock Paper Scissors</a>
+        <a th:href="@{/records}">Records</a>
+        <a th:href="@{/profile}">Profile</a>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit" class="nav-logout">Logout</button>
+        </form>
+    </div>
+</nav>
+<div class="hit-counter"><span class="hit-label">SERVER HITS</span><span class="hit-value" id="hitValue">—</span></div>
+
+<main class="main-content page-pad">
+    <div class="game-page-header">
+        <h1>TIC-TAC-<span class="accent">TOE</span></h1>
+        <p>You are <strong class="accent">X</strong> — AI is <strong>O</strong></p>
+    </div>
+
+    <div class="ttt-layout">
+        <div class="ttt-board-wrap">
+            <div class="ttt-board" id="tttBoard">
+                <button class="ttt-cell" data-index="0"></button>
+                <button class="ttt-cell" data-index="1"></button>
+                <button class="ttt-cell" data-index="2"></button>
+                <button class="ttt-cell" data-index="3"></button>
+                <button class="ttt-cell" data-index="4"></button>
+                <button class="ttt-cell" data-index="5"></button>
+                <button class="ttt-cell" data-index="6"></button>
+                <button class="ttt-cell" data-index="7"></button>
+                <button class="ttt-cell" data-index="8"></button>
+            </div>
+
+            <div class="ttt-status" id="tttStatus">Your turn</div>
+
+            <button class="btn btn-ghost btn-full" id="tttReset" style="margin-top:1rem;">NEW GAME</button>
+        </div>
+
+        <div class="ttt-sidebar">
+            <div class="score-board">
+                <div class="score-item wins">
+                    <span class="score-label">WINS</span>
+                    <span class="score-val" id="tttWins">0</span>
+                </div>
+                <div class="score-item draws">
+                    <span class="score-label">DRAWS</span>
+                    <span class="score-val" id="tttDraws">0</span>
+                </div>
+                <div class="score-item losses">
+                    <span class="score-label">LOSSES</span>
+                    <span class="score-val" id="tttLosses">0</span>
+                </div>
+            </div>
+
+            <div class="result-banner hidden" id="tttResult">
+                <div class="result-icon" id="resultIcon">🏆</div>
+                <div class="result-text" id="resultText">You Win!</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer"><p>GameHub &copy; 2025</p></footer>
+<script th:src="@{/js/hits.js}"></script>
+<script th:src="@{/js/ttt.js}"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dashboard — GameHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+<nav class="navbar">
+    <a class="nav-brand" th:href="@{/}"><span class="brand-icon">⬡</span> GAME<span class="brand-accent">HUB</span></a>
+    <div class="nav-links">
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/games/ttt}">Tic-Tac-Toe</a>
+        <a th:href="@{/games/rps}">Rock Paper Scissors</a>
+        <a th:href="@{/records}">Records</a>
+        <a th:href="@{/profile}">Profile</a>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit" class="nav-logout">Logout</button>
+        </form>
+    </div>
+</nav>
+<div class="hit-counter"><span class="hit-label">SERVER HITS</span><span class="hit-value" id="hitValue">—</span></div>
+
+<main class="main-content page-pad">
+    <div class="page-header">
+        <h1>Welcome back, <span class="accent" th:text="${username}">Player</span></h1>
+        <p class="page-sub">Choose your game and start playing</p>
+    </div>
+
+    <div class="game-grid">
+        <a th:href="@{/games/ttt}" class="game-card">
+            <div class="game-card-icon">⊞</div>
+            <h2>Tic-Tac-Toe</h2>
+            <p>Strategic 3×3 grid battle against AI</p>
+            <span class="game-card-cta">PLAY NOW →</span>
+        </a>
+        <a th:href="@{/games/rps}" class="game-card">
+            <div class="game-card-icon">✊</div>
+            <h2>Rock Paper Scissors</h2>
+            <p>Outwit the machine in this classic duel</p>
+            <span class="game-card-cta">PLAY NOW →</span>
+        </a>
+        <a th:href="@{/records/new}" class="game-card game-card-alt">
+            <div class="game-card-icon">📝</div>
+            <h2>Log a Game</h2>
+            <p>Manually record a game result</p>
+            <span class="game-card-cta">LOG GAME →</span>
+        </a>
+        <a th:href="@{/records}" class="game-card game-card-alt">
+            <div class="game-card-icon">📋</div>
+            <h2>View Records</h2>
+            <p>Browse all logged game history</p>
+            <span class="game-card-cta">VIEW ALL →</span>
+        </a>
+    </div>
+</main>
+
+<footer class="footer"><p>GameHub &copy; 2025</p></footer>
+<script th:src="@{/js/hits.js}"></script>
+</body>
+</html>

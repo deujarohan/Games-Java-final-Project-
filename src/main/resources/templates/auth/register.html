@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Register — GameHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body class="auth-body">
+
+<div class="hit-counter"><span class="hit-label">SERVER HITS</span><span class="hit-value" id="hitValue">—</span></div>
+
+<div class="auth-container">
+    <a class="nav-brand auth-logo" th:href="@{/}">
+        <span class="brand-icon">⬡</span> GAME<span class="brand-accent">HUB</span>
+    </a>
+
+    <h2 class="auth-title">Create Account</h2>
+
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <form th:action="@{/register}" method="post" th:object="${registrationDto}" class="auth-form">
+        <!-- Username -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('username')} ? 'has-error'">
+            <label for="username">Username</label>
+            <input type="text" id="username" th:field="*{username}" placeholder="Choose a username" autofocus/>
+            <span class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
+            <label for="email">Email</label>
+            <input type="email" id="email" th:field="*{email}" placeholder="your@email.com"/>
+            <span class="field-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
+            <label for="password">Password</label>
+            <input type="password" id="password" th:field="*{password}" placeholder="Min. 6 characters"/>
+            <span class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group" th:classappend="${#fields.hasErrors('confirmPassword')} ? 'has-error'">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" th:field="*{confirmPassword}" placeholder="Repeat your password"/>
+            <span class="field-error" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">CREATE ACCOUNT</button>
+    </form>
+
+    <p class="auth-switch">Already have an account? <a th:href="@{/login}">Sign in</a></p>
+</div>
+
+<script th:src="@{/js/hits.js}"></script>
+</body>
+</html>
