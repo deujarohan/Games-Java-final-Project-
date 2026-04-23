@@ -17,31 +17,26 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
+ 
     private final UserService userService;
-
+ 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authProvider() {
+    public DaoAuthenticationProvider authProvider(PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userService);
-        provider.setPasswordEncoder(passwordEncoder());
+        provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
-
+ 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
+ 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, PasswordEncoder passwordEncoder) throws Exception {
         http
-            .authenticationProvider(authProvider())
+            .authenticationProvider(authProvider(passwordEncoder))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/register", "/login", "/css/**", "/js/**", "/api/hits").permitAll()
                 .anyRequest().authenticated()
