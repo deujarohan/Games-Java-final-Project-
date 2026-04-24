@@ -1,80 +1,114 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GameHub — Play & Compete</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-</head>
-<body>
-
-<nav class="navbar">
-    <a class="nav-brand" th:href="@{/}">
-        <span class="brand-icon">⬡</span> GAME<span class="brand-accent">HUB</span>
-    </a>
-    <div class="nav-links">
-        <a th:href="@{/dashboard}" sec:authorize="isAuthenticated()">Dashboard</a>
-        <a th:href="@{/games/ttt}" sec:authorize="isAuthenticated()">Tic-Tac-Toe</a>
-        <a th:href="@{/games/rps}" sec:authorize="isAuthenticated()">Rock Paper Scissors</a>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a class="nav-brand" th:href="@{/}">
+        <span class="brand-icon">⬡</span> GAME<span class="brand-accent"
+          >HUB</span
+        >
+      </a>
+      <div class="nav-links">
+        <a th:href="@{/dashboard}" sec:authorize="isAuthenticated()"
+          >Dashboard</a
+        >
+        <a th:href="@{/games/ttt}" sec:authorize="isAuthenticated()"
+          >Tic-Tac-Toe</a
+        >
+        <a th:href="@{/games/rps}" sec:authorize="isAuthenticated()"
+          >Rock Paper Scissors</a
+        >
         <a th:href="@{/records}" sec:authorize="isAuthenticated()">Records</a>
         <a th:href="@{/profile}" sec:authorize="isAuthenticated()">Profile</a>
-        <a th:href="@{/login}" sec:authorize="isAnonymous()" class="nav-cta">Login</a>
-        <a th:href="@{/register}" sec:authorize="isAnonymous()" class="nav-cta secondary">Register</a>
-        <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" style="display:inline">
-            <button type="submit" class="nav-logout">Logout</button>
+        <a th:href="@{/login}" sec:authorize="isAnonymous()" class="nav-cta"
+          >Login</a
+        >
+        <a
+          th:href="@{/register}"
+          sec:authorize="isAnonymous()"
+          class="nav-cta secondary"
+          >Register</a
+        >
+        <form
+          th:action="@{/logout}"
+          method="post"
+          sec:authorize="isAuthenticated()"
+          style="display: inline"
+        >
+          <button type="submit" class="nav-logout">Logout</button>
         </form>
+      </div>
+    </nav>
+
+    <div class="hit-counter" id="hitCounter">
+      <span class="hit-label">SERVER HITS</span>
+      <span class="hit-value" id="hitValue">—</span>
     </div>
-</nav>
 
-<div class="hit-counter" id="hitCounter">
-    <span class="hit-label">SERVER HITS</span>
-    <span class="hit-value" id="hitValue">—</span>
-</div>
-
-<main class="main-content">
-    <section class="hero">
+    <main class="main-content">
+      <section class="hero">
         <div class="hero-bg-grid"></div>
         <div class="hero-content">
-            <p class="hero-eyebrow">ENTERTAINMENT GAMING PLATFORM</p>
-            <h1 class="hero-title">GAME<span class="accent">HUB</span></h1>
-            <p class="hero-subtitle">Challenge the AI. Track your victories. Dominate the leaderboard.</p>
-            <div class="hero-actions" sec:authorize="isAnonymous()">
-                <a th:href="@{/register}" class="btn btn-primary">Create Account</a>
-                <a th:href="@{/login}" class="btn btn-ghost">Sign In</a>
-            </div>
-            <div class="hero-actions" sec:authorize="isAuthenticated()">
-                <a th:href="@{/games/ttt}" class="btn btn-primary">Play Tic-Tac-Toe</a>
-                <a th:href="@{/games/rps}" class="btn btn-ghost">Rock Paper Scissors</a>
-            </div>
+          <p class="hero-eyebrow">ENTERTAINMENT GAMING PLATFORM</p>
+          <h1 class="hero-title">GAME<span class="accent">HUB</span></h1>
+          <p class="hero-subtitle">
+            Challenge the AI. Track your victories. Dominate the leaderboard.
+          </p>
+          <div class="hero-actions" sec:authorize="isAnonymous()">
+            <a th:href="@{/register}" class="btn btn-primary">Create Account</a>
+            <a th:href="@{/login}" class="btn btn-ghost">Sign In</a>
+          </div>
+          <div class="hero-actions" sec:authorize="isAuthenticated()">
+            <a th:href="@{/games/ttt}" class="btn btn-primary"
+              >Play Tic-Tac-Toe</a
+            >
+            <a th:href="@{/games/rps}" class="btn btn-ghost"
+              >Rock Paper Scissors</a
+            >
+          </div>
         </div>
-    </section>
+      </section>
 
-    <section class="features">
+      <section class="features">
         <div class="feature-card">
-            <div class="feature-icon">⊞</div>
-            <h3>Tic-Tac-Toe</h3>
-            <p>Classic strategy game against an unbeatable AI. Can you find the draw?</p>
+          <div class="feature-icon">⊞</div>
+          <h3>Tic-Tac-Toe</h3>
+          <p>
+            Classic strategy game against an unbeatable AI. Can you find the
+            draw?
+          </p>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">✊</div>
-            <h3>Rock Paper Scissors</h3>
-            <p>Outsmart the AI in the ultimate game of chance and intuition.</p>
+          <div class="feature-icon">✊</div>
+          <h3>Rock Paper Scissors</h3>
+          <p>Outsmart the AI in the ultimate game of chance and intuition.</p>
         </div>
         <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3>Analytics</h3>
-            <p>Track your win rate, streaks, and performance across all games.</p>
+          <div class="feature-icon">📊</div>
+          <h3>Analytics</h3>
+          <p>Track your win rate, streaks, and performance across all games.</p>
         </div>
-    </section>
-</main>
+      </section>
+    </main>
 
-<footer class="footer">
-    <p>GameHub &copy; 2025 &mdash; Entertainment MVC Project</p>
-</footer>
+    <footer class="footer">
+      <p>GameHub &copy; 2025 &mdash; Entertainment MVC Project</p>
+    </footer>
 
-<script th:src="@{/js/hits.js}"></script>
-</body>
+    <script th:src="@{/js/hits.js}"></script>
+  </body>
 </html>
