@@ -19,8 +19,6 @@ A Spring MVC web application featuring two browser-based games (Tic-Tac-Toe and 
 3. Run: `mvn spring-boot:run`
 4. Open your browser and go to `http://localhost:8080`
 
-> On Windows use `mvnw.cmd spring-boot:run`
-
 ---
 
 ## Pages
