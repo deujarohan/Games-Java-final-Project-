@@ -1,96 +1,138 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
+  <head>
+    <meta charset="UTF-8" />
     <title>Profile — GameHub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-</head>
-<body>
-<nav class="navbar">
-    <a class="nav-brand" th:href="@{/}"><span class="brand-icon">⬡</span> GAME<span class="brand-accent">HUB</span></a>
-    <div class="nav-links">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a class="nav-brand" th:href="@{/}"
+        ><span class="brand-icon">⬡</span> GAME<span class="brand-accent"
+          >HUB</span
+        ></a
+      >
+      <div class="nav-links">
         <a th:href="@{/dashboard}">Dashboard</a>
         <a th:href="@{/games/ttt}">Tic-Tac-Toe</a>
         <a th:href="@{/games/rps}">Rock Paper Scissors</a>
         <a th:href="@{/records}">Records</a>
         <a th:href="@{/profile}" class="active">Profile</a>
-        <form th:action="@{/logout}" method="post" style="display:inline">
-            <button type="submit" class="nav-logout">Logout</button>
+        <form th:action="@{/logout}" method="post" style="display: inline">
+          <button type="submit" class="nav-logout">Logout</button>
         </form>
-    </div>
-</nav>
-<div class="hit-counter"><span class="hit-label">SERVER HITS</span><span class="hit-value" id="hitValue">—</span></div>
-
-<main class="main-content page-pad">
-    <div class="page-header">
-        <h1><span class="accent" th:text="${user.username}">Player</span>'s Stats</h1>
-        <p class="page-sub" th:text="'Member since ' + ${#temporals.format(user.createdAt, 'MMMM yyyy')}"></p>
+      </div>
+    </nav>
+    <div class="hit-counter">
+      <span class="hit-label">SERVER HITS</span
+      ><span class="hit-value" id="hitValue">—</span>
     </div>
 
-    <!-- Overall stats -->
-    <div class="stats-overview">
+    <main class="main-content page-pad">
+      <div class="page-header">
+        <h1>
+          <span class="accent" th:text="${user.username}">Player</span>'s Stats
+        </h1>
+        <p
+          class="page-sub"
+          th:text="'Member since ' + ${#temporals.format(user.createdAt, 'MMMM yyyy')}"
+        ></p>
+      </div>
+
+      <!-- Overall stats -->
+      <div class="stats-overview">
         <div class="stat-card total">
-            <span class="stat-num" th:text="${user.totalGamesPlayed}">0</span>
-            <span class="stat-label">Total Games</span>
+          <span class="stat-num" th:text="${user.totalGamesPlayed}">0</span>
+          <span class="stat-label">Total Games</span>
         </div>
         <div class="stat-card wins">
-            <span class="stat-num" th:text="${user.totalWins}">0</span>
-            <span class="stat-label">Total Wins</span>
+          <span class="stat-num" th:text="${user.totalWins}">0</span>
+          <span class="stat-label">Total Wins</span>
         </div>
         <div class="stat-card losses">
-            <span class="stat-num" th:text="${user.totalLosses}">0</span>
-            <span class="stat-label">Total Losses</span>
+          <span class="stat-num" th:text="${user.totalLosses}">0</span>
+          <span class="stat-label">Total Losses</span>
         </div>
-    </div>
+      </div>
 
-    <!-- Per-game breakdown -->
-    <div class="game-stats-grid">
-
+      <!-- Per-game breakdown -->
+      <div class="game-stats-grid">
         <!-- TTT Stats -->
         <div class="game-stat-card">
-            <div class="game-stat-header">
-                <span class="game-stat-icon">⊞</span>
-                <h2>Tic-Tac-Toe</h2>
+          <div class="game-stat-header">
+            <span class="game-stat-icon">⊞</span>
+            <h2>Tic-Tac-Toe</h2>
+          </div>
+          <div class="game-stat-numbers">
+            <div class="gstat wins">
+              <span th:text="${user.tttWins}">0</span><small>Wins</small>
             </div>
-            <div class="game-stat-numbers">
-                <div class="gstat wins"><span th:text="${user.tttWins}">0</span><small>Wins</small></div>
-                <div class="gstat draws"><span th:text="${user.tttDraws}">0</span><small>Draws</small></div>
-                <div class="gstat losses"><span th:text="${user.tttLosses}">0</span><small>Losses</small></div>
+            <div class="gstat draws">
+              <span th:text="${user.tttDraws}">0</span><small>Draws</small>
             </div>
-            <div class="win-rate-bar">
-                <div class="win-rate-label">Win Rate: <strong th:text="${tttWinRate} + '%'">0%</strong></div>
-                <div class="win-rate-track">
-                    <div class="win-rate-fill" th:style="'width:' + ${tttWinRate} + '%'"></div>
-                </div>
+            <div class="gstat losses">
+              <span th:text="${user.tttLosses}">0</span><small>Losses</small>
             </div>
-            <p class="games-total" th:text="'Total: ' + ${tttTotal} + ' games'"></p>
+          </div>
+          <div class="win-rate-bar">
+            <div class="win-rate-label">
+              Win Rate: <strong th:text="${tttWinRate} + '%'">0%</strong>
+            </div>
+            <div class="win-rate-track">
+              <div
+                class="win-rate-fill"
+                th:style="'width:' + ${tttWinRate} + '%'"
+              ></div>
+            </div>
+          </div>
+          <p
+            class="games-total"
+            th:text="'Total: ' + ${tttTotal} + ' games'"
+          ></p>
         </div>
 
         <!-- RPS Stats -->
         <div class="game-stat-card">
-            <div class="game-stat-header">
-                <span class="game-stat-icon">✊</span>
-                <h2>Rock Paper Scissors</h2>
+          <div class="game-stat-header">
+            <span class="game-stat-icon">✊</span>
+            <h2>Rock Paper Scissors</h2>
+          </div>
+          <div class="game-stat-numbers">
+            <div class="gstat wins">
+              <span th:text="${user.rpsWins}">0</span><small>Wins</small>
             </div>
-            <div class="game-stat-numbers">
-                <div class="gstat wins"><span th:text="${user.rpsWins}">0</span><small>Wins</small></div>
-                <div class="gstat draws"><span th:text="${user.rpsDraws}">0</span><small>Draws</small></div>
-                <div class="gstat losses"><span th:text="${user.rpsLosses}">0</span><small>Losses</small></div>
+            <div class="gstat draws">
+              <span th:text="${user.rpsDraws}">0</span><small>Draws</small>
             </div>
-            <div class="win-rate-bar">
-                <div class="win-rate-label">Win Rate: <strong th:text="${rpsWinRate} + '%'">0%</strong></div>
-                <div class="win-rate-track">
-                    <div class="win-rate-fill" th:style="'width:' + ${rpsWinRate} + '%'"></div>
-                </div>
+            <div class="gstat losses">
+              <span th:text="${user.rpsLosses}">0</span><small>Losses</small>
             </div>
-            <p class="games-total" th:text="'Total: ' + ${rpsTotal} + ' games'"></p>
+          </div>
+          <div class="win-rate-bar">
+            <div class="win-rate-label">
+              Win Rate: <strong th:text="${rpsWinRate} + '%'">0%</strong>
+            </div>
+            <div class="win-rate-track">
+              <div
+                class="win-rate-fill"
+                th:style="'width:' + ${rpsWinRate} + '%'"
+              ></div>
+            </div>
+          </div>
+          <p
+            class="games-total"
+            th:text="'Total: ' + ${rpsTotal} + ' games'"
+          ></p>
         </div>
-    </div>
-</main>
+      </div>
+    </main>
 
-<footer class="footer"><p>GameHub &copy; 2025</p></footer>
-<script th:src="@{/js/hits.js}"></script>
-</body>
+    <footer class="footer"><p>Rohan Deuja - &copy; C0957767</p></footer>
+    <script th:src="@{/js/hits.js}"></script>
+  </body>
 </html>

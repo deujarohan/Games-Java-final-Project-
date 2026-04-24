@@ -1,94 +1,163 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
+  <head>
+    <meta charset="UTF-8" />
     <title>Log Game — GameHub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-</head>
-<body>
-<nav class="navbar">
-    <a class="nav-brand" th:href="@{/}"><span class="brand-icon">⬡</span> GAME<span class="brand-accent">HUB</span></a>
-    <div class="nav-links">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a class="nav-brand" th:href="@{/}"
+        ><span class="brand-icon">⬡</span> GAME<span class="brand-accent"
+          >HUB</span
+        ></a
+      >
+      <div class="nav-links">
         <a th:href="@{/dashboard}">Dashboard</a>
         <a th:href="@{/games/ttt}">Tic-Tac-Toe</a>
         <a th:href="@{/games/rps}">Rock Paper Scissors</a>
         <a th:href="@{/records}" class="active">Records</a>
         <a th:href="@{/profile}">Profile</a>
-        <form th:action="@{/logout}" method="post" style="display:inline">
-            <button type="submit" class="nav-logout">Logout</button>
+        <form th:action="@{/logout}" method="post" style="display: inline">
+          <button type="submit" class="nav-logout">Logout</button>
         </form>
+      </div>
+    </nav>
+    <div class="hit-counter">
+      <span class="hit-label">SERVER HITS</span
+      ><span class="hit-value" id="hitValue">—</span>
     </div>
-</nav>
-<div class="hit-counter"><span class="hit-label">SERVER HITS</span><span class="hit-value" id="hitValue">—</span></div>
 
-<main class="main-content page-pad">
-    <div class="page-header">
+    <main class="main-content page-pad">
+      <div class="page-header">
         <h1>LOG A <span class="accent">GAME</span></h1>
         <a th:href="@{/records}" class="btn btn-ghost">← Back to Records</a>
-    </div>
+      </div>
 
-    <div class="form-card">
-        <form th:action="@{/records/new}" method="post" th:object="${gameRecordDto}" class="record-form">
+      <div class="form-card">
+        <form
+          th:action="@{/records/new}"
+          method="post"
+          th:object="${gameRecordDto}"
+          class="record-form"
+        >
+          <!-- Game Type (field 1) -->
+          <div
+            class="form-group"
+            th:classappend="${#fields.hasErrors('gameType')} ? 'has-error'"
+          >
+            <label for="gameType"
+              >Game Type <span class="required">*</span></label
+            >
+            <select id="gameType" th:field="*{gameType}">
+              <option value="">— Select a game —</option>
+              <option value="TIC_TAC_TOE">Tic-Tac-Toe</option>
+              <option value="ROCK_PAPER_SCISSORS">Rock Paper Scissors</option>
+            </select>
+            <span
+              class="field-error"
+              th:if="${#fields.hasErrors('gameType')}"
+              th:errors="*{gameType}"
+            ></span>
+          </div>
 
-            <!-- Game Type (field 1) -->
-            <div class="form-group" th:classappend="${#fields.hasErrors('gameType')} ? 'has-error'">
-                <label for="gameType">Game Type <span class="required">*</span></label>
-                <select id="gameType" th:field="*{gameType}">
-                    <option value="">— Select a game —</option>
-                    <option value="TIC_TAC_TOE">Tic-Tac-Toe</option>
-                    <option value="ROCK_PAPER_SCISSORS">Rock Paper Scissors</option>
-                </select>
-                <span class="field-error" th:if="${#fields.hasErrors('gameType')}" th:errors="*{gameType}"></span>
-            </div>
+          <!-- Result (field 2) -->
+          <div
+            class="form-group"
+            th:classappend="${#fields.hasErrors('result')} ? 'has-error'"
+          >
+            <label for="result">Result <span class="required">*</span></label>
+            <select id="result" th:field="*{result}">
+              <option value="">— Select result —</option>
+              <option value="WIN">Win</option>
+              <option value="LOSS">Loss</option>
+              <option value="DRAW">Draw</option>
+            </select>
+            <span
+              class="field-error"
+              th:if="${#fields.hasErrors('result')}"
+              th:errors="*{result}"
+            ></span>
+          </div>
 
-            <!-- Result (field 2) -->
-            <div class="form-group" th:classappend="${#fields.hasErrors('result')} ? 'has-error'">
-                <label for="result">Result <span class="required">*</span></label>
-                <select id="result" th:field="*{result}">
-                    <option value="">— Select result —</option>
-                    <option value="WIN">Win</option>
-                    <option value="LOSS">Loss</option>
-                    <option value="DRAW">Draw</option>
-                </select>
-                <span class="field-error" th:if="${#fields.hasErrors('result')}" th:errors="*{result}"></span>
-            </div>
+          <!-- Opponent Type (field 3) -->
+          <div
+            class="form-group"
+            th:classappend="${#fields.hasErrors('opponentType')} ? 'has-error'"
+          >
+            <label for="opponentType"
+              >Opponent Type <span class="required">*</span></label
+            >
+            <select id="opponentType" th:field="*{opponentType}">
+              <option value="">— Select opponent —</option>
+              <option value="AI">AI</option>
+              <option value="HUMAN">Human</option>
+            </select>
+            <span
+              class="field-error"
+              th:if="${#fields.hasErrors('opponentType')}"
+              th:errors="*{opponentType}"
+            ></span>
+          </div>
 
-            <!-- Opponent Type (field 3) -->
-            <div class="form-group" th:classappend="${#fields.hasErrors('opponentType')} ? 'has-error'">
-                <label for="opponentType">Opponent Type <span class="required">*</span></label>
-                <select id="opponentType" th:field="*{opponentType}">
-                    <option value="">— Select opponent —</option>
-                    <option value="AI">AI</option>
-                    <option value="HUMAN">Human</option>
-                </select>
-                <span class="field-error" th:if="${#fields.hasErrors('opponentType')}" th:errors="*{opponentType}"></span>
-            </div>
+          <!-- Duration (field 4) -->
+          <div
+            class="form-group"
+            th:classappend="${#fields.hasErrors('durationSeconds')} ? 'has-error'"
+          >
+            <label for="durationSeconds"
+              >Duration (seconds) <span class="required">*</span></label
+            >
+            <input
+              type="number"
+              id="durationSeconds"
+              th:field="*{durationSeconds}"
+              placeholder="e.g. 60"
+              min="1"
+              max="3600"
+            />
+            <span
+              class="field-error"
+              th:if="${#fields.hasErrors('durationSeconds')}"
+              th:errors="*{durationSeconds}"
+            ></span>
+          </div>
 
-            <!-- Duration (field 4) -->
-            <div class="form-group" th:classappend="${#fields.hasErrors('durationSeconds')} ? 'has-error'">
-                <label for="durationSeconds">Duration (seconds) <span class="required">*</span></label>
-                <input type="number" id="durationSeconds" th:field="*{durationSeconds}" placeholder="e.g. 60" min="1" max="3600"/>
-                <span class="field-error" th:if="${#fields.hasErrors('durationSeconds')}" th:errors="*{durationSeconds}"></span>
-            </div>
+          <!-- Notes (field 5 — optional) -->
+          <div
+            class="form-group"
+            th:classappend="${#fields.hasErrors('notes')} ? 'has-error'"
+          >
+            <label for="notes"
+              >Notes <span class="optional">(optional)</span></label
+            >
+            <textarea
+              id="notes"
+              th:field="*{notes}"
+              rows="3"
+              placeholder="Any notes about this game..."
+            ></textarea>
+            <span
+              class="field-error"
+              th:if="${#fields.hasErrors('notes')}"
+              th:errors="*{notes}"
+            ></span>
+          </div>
 
-            <!-- Notes (field 5 — optional) -->
-            <div class="form-group" th:classappend="${#fields.hasErrors('notes')} ? 'has-error'">
-                <label for="notes">Notes <span class="optional">(optional)</span></label>
-                <textarea id="notes" th:field="*{notes}" rows="3" placeholder="Any notes about this game..."></textarea>
-                <span class="field-error" th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}"></span>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">SAVE RECORD</button>
-                <a th:href="@{/records}" class="btn btn-ghost">Cancel</a>
-            </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">SAVE RECORD</button>
+            <a th:href="@{/records}" class="btn btn-ghost">Cancel</a>
+          </div>
         </form>
-    </div>
-</main>
+      </div>
+    </main>
 
-<footer class="footer"><p>GameHub &copy; 2025</p></footer>
-<script th:src="@{/js/hits.js}"></script>
-</body>
+    <footer class="footer"><p>Rohan Deuja - &copy; C0957767</p></footer>
+    <script th:src="@{/js/hits.js}"></script>
+  </body>
 </html>

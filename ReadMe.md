@@ -29,7 +29,7 @@ A Spring MVC web application featuring two browser-based games (Tic-Tac-Toe and 
 | Register            | `/register`    | Create a new account                                             |
 | Login               | `/login`       | Sign in to your account                                          |
 | Dashboard           | `/dashboard`   | Game selection hub                                               |
-| Tic-Tac-Toe         | `/games/ttt`   | Play against random AI                                           |
+| Tic-Tac-Toe         | `/games/ttt`   | Play against Minimax AI                                          |
 | Rock Paper Scissors | `/games/rps`   | Play against random AI                                           |
 | Records             | `/records`     | View all logged game entries, filterable by game type and result |
 | Log a Game          | `/records/new` | Manually submit a game result form                               |

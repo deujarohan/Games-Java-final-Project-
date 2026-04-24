@@ -1,97 +1,148 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
+  <head>
+    <meta charset="UTF-8" />
     <title>Game Records — GameHub</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" th:href="@{/css/main.css}"/>
-</head>
-<body>
-<nav class="navbar">
-    <a class="nav-brand" th:href="@{/}"><span class="brand-icon">⬡</span> GAME<span class="brand-accent">HUB</span></a>
-    <div class="nav-links">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a class="nav-brand" th:href="@{/}"
+        ><span class="brand-icon">⬡</span> GAME<span class="brand-accent"
+          >HUB</span
+        ></a
+      >
+      <div class="nav-links">
         <a th:href="@{/dashboard}">Dashboard</a>
         <a th:href="@{/games/ttt}">Tic-Tac-Toe</a>
         <a th:href="@{/games/rps}">Rock Paper Scissors</a>
         <a th:href="@{/records}" class="active">Records</a>
         <a th:href="@{/profile}">Profile</a>
-        <form th:action="@{/logout}" method="post" style="display:inline">
-            <button type="submit" class="nav-logout">Logout</button>
+        <form th:action="@{/logout}" method="post" style="display: inline">
+          <button type="submit" class="nav-logout">Logout</button>
         </form>
+      </div>
+    </nav>
+    <div class="hit-counter">
+      <span class="hit-label">SERVER HITS</span
+      ><span class="hit-value" id="hitValue">—</span>
     </div>
-</nav>
-<div class="hit-counter"><span class="hit-label">SERVER HITS</span><span class="hit-value" id="hitValue">—</span></div>
 
-<main class="main-content page-pad">
-    <div class="page-header">
+    <main class="main-content page-pad">
+      <div class="page-header">
         <h1>GAME <span class="accent">RECORDS</span></h1>
         <a th:href="@{/records/new}" class="btn btn-primary">+ Log Game</a>
-    </div>
+      </div>
 
-    <div th:if="${param.saved}" class="alert alert-success">Game record saved successfully!</div>
+      <div th:if="${param.saved}" class="alert alert-success">
+        Game record saved successfully!
+      </div>
 
-    <!-- Filter Form — supports 0, 1, or 2 GET filters -->
-    <form class="filter-form" method="get" th:action="@{/records}">
+      <!-- Filter Form — supports 0, 1, or 2 GET filters -->
+      <form class="filter-form" method="get" th:action="@{/records}">
         <div class="filter-group">
-            <label>Game Type</label>
-            <select name="gameType">
-                <option value="" th:selected="${filterGameType == null or filterGameType == ''}">All Games</option>
-                <option value="TIC_TAC_TOE" th:selected="${filterGameType == 'TIC_TAC_TOE'}">Tic-Tac-Toe</option>
-                <option value="ROCK_PAPER_SCISSORS" th:selected="${filterGameType == 'ROCK_PAPER_SCISSORS'}">Rock Paper Scissors</option>
-            </select>
+          <label>Game Type</label>
+          <select name="gameType">
+            <option
+              value=""
+              th:selected="${filterGameType == null or filterGameType == ''}"
+            >
+              All Games
+            </option>
+            <option
+              value="TIC_TAC_TOE"
+              th:selected="${filterGameType == 'TIC_TAC_TOE'}"
+            >
+              Tic-Tac-Toe
+            </option>
+            <option
+              value="ROCK_PAPER_SCISSORS"
+              th:selected="${filterGameType == 'ROCK_PAPER_SCISSORS'}"
+            >
+              Rock Paper Scissors
+            </option>
+          </select>
         </div>
         <div class="filter-group">
-            <label>Result</label>
-            <select name="result">
-                <option value="" th:selected="${filterResult == null or filterResult == ''}">All Results</option>
-                <option value="WIN" th:selected="${filterResult == 'WIN'}">Wins</option>
-                <option value="LOSS" th:selected="${filterResult == 'LOSS'}">Losses</option>
-                <option value="DRAW" th:selected="${filterResult == 'DRAW'}">Draws</option>
-            </select>
+          <label>Result</label>
+          <select name="result">
+            <option
+              value=""
+              th:selected="${filterResult == null or filterResult == ''}"
+            >
+              All Results
+            </option>
+            <option value="WIN" th:selected="${filterResult == 'WIN'}">
+              Wins
+            </option>
+            <option value="LOSS" th:selected="${filterResult == 'LOSS'}">
+              Losses
+            </option>
+            <option value="DRAW" th:selected="${filterResult == 'DRAW'}">
+              Draws
+            </option>
+          </select>
         </div>
         <button type="submit" class="btn btn-ghost">Apply Filters</button>
         <a th:href="@{/records}" class="btn btn-ghost">Clear</a>
-    </form>
+      </form>
 
-    <!-- Records Table -->
-    <div class="table-wrap">
+      <!-- Records Table -->
+      <div class="table-wrap">
         <table class="records-table" th:if="${!records.isEmpty()}">
-            <thead>
-                <tr>
-                    <th>Player</th>
-                    <th>Game</th>
-                    <th>Result</th>
-                    <th>Opponent</th>
-                    <th>Duration</th>
-                    <th>Notes</th>
-                    <th>Played At</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="r : ${records}" th:classappend="${r.result}">
-                    <td th:text="${r.username}"></td>
-                    <td>
-                        <span th:text="${r.gameType == 'TIC_TAC_TOE'} ? 'Tic-Tac-Toe' : 'Rock Paper Scissors'"></span>
-                    </td>
-                    <td>
-                        <span class="badge" th:classappend="${'badge-' + r.result.toLowerCase()}" th:text="${r.result}"></span>
-                    </td>
-                    <td th:text="${r.opponentType}"></td>
-                    <td th:text="${r.durationSeconds} + 's'"></td>
-                    <td th:text="${r.notes != null and !r.notes.isEmpty()} ? ${r.notes} : '—'"></td>
-                    <td th:text="${#temporals.format(r.playedAt, 'MMM dd, yyyy HH:mm')}"></td>
-                </tr>
-            </tbody>
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Game</th>
+              <th>Result</th>
+              <th>Opponent</th>
+              <th>Duration</th>
+              <th>Notes</th>
+              <th>Played At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="r : ${records}" th:classappend="${r.result}">
+              <td th:text="${r.username}"></td>
+              <td>
+                <span
+                  th:text="${r.gameType == 'TIC_TAC_TOE'} ? 'Tic-Tac-Toe' : 'Rock Paper Scissors'"
+                ></span>
+              </td>
+              <td>
+                <span
+                  class="badge"
+                  th:classappend="${'badge-' + r.result.toLowerCase()}"
+                  th:text="${r.result}"
+                ></span>
+              </td>
+              <td th:text="${r.opponentType}"></td>
+              <td th:text="${r.durationSeconds} + 's'"></td>
+              <td
+                th:text="${r.notes != null and !r.notes.isEmpty()} ? ${r.notes} : '—'"
+              ></td>
+              <td
+                th:text="${#temporals.format(r.playedAt, 'MMM dd, yyyy HH:mm')}"
+              ></td>
+            </tr>
+          </tbody>
         </table>
 
         <div class="empty-state" th:if="${records.isEmpty()}">
-            <p>No records found. <a th:href="@{/records/new}">Log your first game!</a></p>
+          <p>
+            No records found.
+            <a th:href="@{/records/new}">Log your first game!</a>
+          </p>
         </div>
-    </div>
-</main>
+      </div>
+    </main>
 
-<footer class="footer"><p>GameHub &copy; 2025</p></footer>
-<script th:src="@{/js/hits.js}"></script>
-</body>
+    <footer class="footer"><p>Rohan Deuja - &copy; C0957767</p></footer>
+    <script th:src="@{/js/hits.js}"></script>
+  </body>
 </html>
